@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Data</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        header {
+            width: 100%;
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            color: #1a1a1a;
+            font-size: 2.2rem;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .container {
+            background: white;
+            padding: 2.5rem 3rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            color: #1a1a1a;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .file-upload {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: #94a3b8;
+            background: #f1f5f9;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .upload-label {
+            color: #475569;
+            font-size: 1rem;
+            cursor: pointer;
+            display: block;
+        }
+
+        .upload-label:hover {
+            color: #1e293b;
+        }
+
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);
+        }
+
+        button:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 8px -1px rgba(59, 130, 246, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .icon {
+            display: block;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: #94a3b8;
+        }
+
+        #file-name-display {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            color: #1e293b;
+            font-size: 0.9rem;
+            background: #f1f5f9;
+            border-radius: 4px;
+            display: none;
+        }
+
+        #file-name-display.active {
+            display: block;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .file-icon {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Financial Analysis Platform</h1>
+    </header>
+
+    <div class="container">
+        <h1>Upload Data</h1>
+        <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
+            <div class="file-upload">
+                <label class="upload-label">
+                    <span class="icon">📁</span>
+                    <span>Choose a JSON file</span>
+                    <input type="file" name="file" accept=".json" onchange="updateFileName(this)">
+                </label>
+            </div>
+            <div id="file-name-display"></div>
+            <button type="submit">Upload File</button>
+        </form>
+    </div>
+
+    <script>
+        function updateFileName(input) {
+            const fileDisplay = document.getElementById('file-name-display');
+            if (input.files && input.files[0]) {
+                const fileName = input.files[0].name;
+                fileDisplay.innerHTML = `
+                    <div class="file-info">
+                        <span class="file-icon">📄</span>
+                        <span>${fileName}</span>
+                    </div>
+                `;
+                fileDisplay.classList.add('active');
+            } else {
+                fileDisplay.innerHTML = '';
+                fileDisplay.classList.remove('active');
+            }
+        }
+
+
+    </script>
+</body>
+</html>
